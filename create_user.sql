@@ -1,0 +1,3 @@
+CREATE USER 'tooling_admin_2'@'%' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON *.* TO 'tooling_admin_2'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
