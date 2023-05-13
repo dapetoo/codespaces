@@ -1002,16 +1002,59 @@ ssh -i ../ssh/k8s-cluster-from-ground-up.id_rsa ubuntu@${worker_3_ip}
 
 sudo swapoff -a
 
-##Download and Install Docker
-sudo apt update -y && \
-sudo apt -y install apt-transport-https ca-certificates curl software-properties-common && \
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - && \
-sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable" && \
-sudo apt update -y && \
-apt-cache policy docker-ce && \
-sudo apt -y install docker-ce && \
-sudo usermod -aG docker ${USER} && \
-sudo systemctl status docker
+##Download and Install Containerd
+
+ wget https://github.com/opencontainers/runc/releases/download/v1.0.0-rc93/runc.amd64 \
+  https://github.com/kubernetes-sigs/cri-tools/releases/download/v1.21.0/crictl-v1.21.0-linux-amd64.tar.gz \
+  https://github.com/containerd/containerd/releases/download/v1.4.4/containerd-1.4.4-linux-amd64.tar.gz 
+
+
+  {
+  mkdir containerd
+  tar -xvf crictl-v1.21.0-linux-amd64.tar.gz
+  tar -xvf containerd-1.4.4-linux-amd64.tar.gz -C containerd
+  sudo mv runc.amd64 runc
+  chmod +x  crictl runc  
+  sudo mv crictl runc /usr/local/bin/
+  sudo mv containerd/bin/* /bin/
+}
+
+
+sudo mkdir -p /etc/containerd/
+
+cat << EOF | sudo tee /etc/containerd/config.toml
+[plugins]
+  [plugins.cri.containerd]
+    snapshotter = "overlayfs"
+    [plugins.cri.containerd.default_runtime]
+      runtime_type = "io.containerd.runtime.v1.linux"
+      runtime_engine = "/usr/local/bin/runc"
+      runtime_root = ""
+EOF
+
+
+cat <<EOF | sudo tee /etc/systemd/system/containerd.service
+[Unit]
+Description=containerd container runtime
+Documentation=https://containerd.io
+After=network.target
+
+[Service]
+ExecStartPre=/sbin/modprobe overlay
+ExecStart=/bin/containerd
+Restart=always
+RestartSec=5
+Delegate=yes
+KillMode=process
+OOMScoreAdjust=-999
+LimitNOFILE=1048576
+LimitNPROC=infinity
+LimitCORE=infinity
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
 
 sudo mkdir -p \
   /var/lib/kubelet \
@@ -1144,6 +1187,27 @@ mode: "iptables"
 clusterCIDR: "172.31.0.0/16"
 EOF
 
+
+
+cat <<EOF | sudo tee /etc/systemd/system/kube-proxy.service
+[Unit]
+Description=Kubernetes Kube Proxy
+Documentation=https://github.com/kubernetes/kubernetes
+[Service]
+ExecStart=/usr/local/bin/kube-proxy \\
+  --config=/var/lib/kube-proxy/kube-proxy-config.yaml
+Restart=on-failure
+RestartSec=5
+[Install]
+WantedBy=multi-user.target
+EOF
+
+
+{
+  sudo systemctl daemon-reload
+  sudo systemctl enable containerd kubelet kube-proxy
+  sudo systemctl start containerd kubelet kube-proxy
+}
 
 
 
