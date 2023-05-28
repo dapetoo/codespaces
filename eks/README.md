@@ -94,18 +94,7 @@ $ kubectl exec --stdin=true --tty=true my-vault-0 -- vault operator unseal # ...
 $ kubectl exec --stdin=true --tty=true my-vault-0 -- vault operator unseal # ... Unseal Key 2
 $ kubectl exec --stdin=true --tty=true my-vault-0 -- vault operator unseal # ... Unseal Key 3
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#JFROG Artifactory
+helm repo add jfrog https://charts.jfrog.io
+helm install my-artifactory jfrog/artifactory --version 107.55.14
+```
