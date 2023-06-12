@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1 
+kind: Ingress
+metadata:
+  name: ingress
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-staging"
+spec:
+  tls:
+  - hosts:
+    - peterdada.me
+    secretName: tls-secret
+  rules:
+  - host: "tooling.artifactory.peterdada.me"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: my-artifactory
+            port:
+              number: 8082
