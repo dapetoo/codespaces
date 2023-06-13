@@ -49,7 +49,3 @@ helm install my-artifactory jfrog/artifactory --version 107.33.12
 helm uninstall my-artifactory && sleep 90 && kubectl delete pvc -l app=artifactory
 
 ```
-
-
-
-
