@@ -48,4 +48,6 @@ helm install my-artifactory jfrog/artifactory --version 107.33.12
 
 helm uninstall my-artifactory && sleep 90 && kubectl delete pvc -l app=artifactory
 
+helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --version v1.12.0 
+
 ```
