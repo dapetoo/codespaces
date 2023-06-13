@@ -1,0 +1,32 @@
+{
+    "Comment": "Create a subdomain NS record in the parent domain",
+    "Changes": [
+      {
+        "Action": "CREATE",
+        "ResourceRecordSet": {
+          "Name": "cluster.peterdada.me",
+          "Type": "NS",
+          "TTL": 300,
+          "ResourceRecords": [
+            {
+              "Value": "ns-1570.awsdns-04.co.uk"
+            },
+            {
+              "Value": "ns-681.awsdns-21.net"
+            },
+            {
+              "Value": "ns-1066.awsdns-05.org"
+            },
+            {
+              "Value": "ns-378.awsdns-47.com"
+            }
+          ]
+        }
+      }
+    ]
+  }
+  
+
+  aws s3api create-bucket \
+    --bucket cluster.peterdada.me \
+    --region us-east-1
