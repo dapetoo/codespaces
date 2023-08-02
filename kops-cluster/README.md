@@ -15,14 +15,10 @@ aws s3api create-bucket \
 aws s3api put-bucket-versioning --bucket p25-kops-cluster  --versioning-configuration Status=Enabled
 
 
-export NAME=myfirstcluster.k8s.local
-export KOPS_STATE_STORE=s3://p25-kops-cluster
+export NAME=cluster.peterdada.me
+export KOPS_STATE_STORE=s3://cluster.peterdada.me
 
-kops create cluster \
-    --name=${NAME} \
-    --cloud=aws \
-    --zones=us-east-2a \
-    --state=s3://p25-kops-cluster
+kops create cluster --name=${NAME} --cloud=aws --zones=us-east-1a --state=s3://cluster.peterdada.me
 
 #Edit Cluster
 kops edit cluster --name ${NAME}
@@ -49,5 +45,3 @@ helm install my-artifactory jfrog/artifactory --version 107.33.12
 helm uninstall my-artifactory && sleep 90 && kubectl delete pvc -l app=artifactory
 
 helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --version v1.12.0 
-
-```

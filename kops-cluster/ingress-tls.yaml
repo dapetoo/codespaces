@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    kubernetes.io/ingress.class: nginx
+  name: artifactory
+  namespace: tools
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: "tooling.artifactory.peterdada.me"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: artifactory
+            port:
+              number: 8082
+  tls:
+    - hosts:
+      - tooling.artifactory.peterdada.me
+      secretName: aws-route53-creds
