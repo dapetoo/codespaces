@@ -25,8 +25,4 @@
       }
     ]
   }
-  
 
-  aws s3api create-bucket \
-    --bucket cluster.peterdada.me \
-    --region us-east-1
