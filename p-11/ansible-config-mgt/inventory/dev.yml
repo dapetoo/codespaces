@@ -1,16 +1,42 @@
 webservers:
   hosts:
+    web_host:
       ansible_host: '172.31.45.44'
       ansible_user: 'ubuntu'
+
 lb:
   hosts:
-      ansible_host: '172.31.45.44'
+    lb_host:
+      ansible_host: '172.31.45.45'  # Replace with the actual LB IP
       ansible_user: 'ubuntu'
+
 db:
   hosts:
-      ansible_host: '172.31.45.44'
+    db_host:
+      ansible_host: '172.31.45.46'  # Replace with the actual DB server IP
       ansible_user: 'ubuntu'
+      http_port: 22
+
 nfs:
   hosts:
-      ansible_host: '172.31.45.44'
+    nfs_host:
+      ansible_host: '172.31.45.47'  # Replace with the actual NFS server IP
       ansible_user: 'ubuntu'
+
+# webservers:
+#   hosts:
+#       ansible_host: '172.31.45.44'
+#       ansible_user: 'ubuntu'
+# lb:
+#   hosts:
+#       ansible_host: '172.31.45.44'
+#       ansible_user: 'ubuntu'
+# db:
+#   hosts:
+#       ansible_host: '172.31.45.44'
+#       ansible_user: 'ubuntu'
+#       http_port: 22
+# nfs:
+#   hosts:
+#       ansible_host: '172.31.45.44'
+#       ansible_user: 'ubuntu'
