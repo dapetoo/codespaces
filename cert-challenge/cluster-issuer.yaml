@@ -1,0 +1,32 @@
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+  namespace: "cert-manager"
+spec:
+  acme:
+    email: dapetoo@gmail.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+    - dns01:
+        route53:
+          region: "us-east-1"
+          hostedZoneID: "Z01722682VWC0NGDO8OSL"
+    # - selector:
+    #     dnsZones:
+    #       - peterdada.me"
+    #   dns01:
+    #     route53:
+    #       region: us-east-1
+    #       accessKeyID: AKIA6MCF44WTH23U2H4E
+    #       hostedZoneID: Z01722682VWC0NGDO8OSL # optional, allows you to reduce the scope of permissions in Amazon IAM
+    #       secretAccessKeySecretRef:
+    #         name: prod-route53-credentials-secret
+    #         key: secret-access-key
+
