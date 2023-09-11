@@ -1,0 +1,16 @@
+webservers:
+  hosts:
+      ansible_host: '172.31.45.44'
+      ansible_user: 'ubuntu'
+lb:
+  hosts:
+      ansible_host: '172.31.45.44'
+      ansible_user: 'ubuntu'
+db:
+  hosts:
+      ansible_host: '172.31.45.44'
+      ansible_user: 'ubuntu'
+nfs:
+  hosts:
+      ansible_host: '172.31.45.44'
+      ansible_user: 'ubuntu'
