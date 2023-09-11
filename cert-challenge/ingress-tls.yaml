@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    kubernetes.io/ingress.class: nginx
+  name: artifactory1
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: "artifactory.peterdada.me"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: my-artifactory
+            port:
+              number: 8082
+  tls:
+  - hosts:
+    - "artifactory.peterdada.me"
+    secretName: "artifactory.peterdada.me-gt742-np7j5"

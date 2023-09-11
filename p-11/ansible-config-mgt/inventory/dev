@@ -1,0 +1,13 @@
+[nfs]
+172.31.45.44 ansible_ssh_user='ubuntu'
+
+
+
+[webservers]
+172.31.45.44 ansible_ssh_user='ubuntu'
+
+[db]
+172.31.45.44 ansible_ssh_user='ubuntu'
+
+[lb]
+172.31.45.44 ansible_ssh_user='ubuntu'
